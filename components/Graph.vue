@@ -1,5 +1,6 @@
 <template>
-  <div ref="graph" id="container" @click="drawGraph">Graph</div>
+  <div ref="graph" v-if="hasData" id="container" @click="drawGraph">Graph</div>
+  <div v-else>Loading...</div>
 </template>
 
 <script>
@@ -23,6 +24,11 @@ export default {
     return {
       data: undefined
     };
+  },
+  computed: {
+    hasData() {
+      return this.days14 && this.days14.length > 0;
+    }
   },
   created() {
     this.$nextTick(() => {
