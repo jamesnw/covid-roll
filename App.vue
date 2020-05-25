@@ -1,14 +1,15 @@
 <template>
   <CountyOptions />
+  <Graph />
 </template>
 
 <script>
-import DataLayer from "./components/DataLayer.vue";
+import Graph from "./components/Graph.vue";
 import CountyOptions from "./components/CountyOptions.vue";
 export default {
   name: "App",
   components: {
-    DataLayer,
+    Graph,
     CountyOptions
   }
 };
