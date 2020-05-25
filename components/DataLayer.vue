@@ -1,18 +1,25 @@
 <template>
-  <p>{{days}} days of data</p>
-  <graph :days14="rolling14" :days7="rolling7" />
+  <p>{{days}} days of data - {{area}} - {{things}}</p>
+  <pre>{{info}}</pre>
+  <graph :days14="rolling14" :days7="rolling7" :days="combined" />
 </template>
 
 <script>
 import Graph from "./Graph.vue";
+import { area, countyList } from "../composables/area";
 export default {
   name: "DataLayer",
   components: { Graph },
+  setup() {
+    return { area };
+  },
   data: () => ({
-    info: {}
+    info: {},
+    county: {}
   }),
   created() {
-    this.loadData();
+    // this.loadData();
+    this.loadCountyData();
   },
   computed: {
     days() {
@@ -26,6 +33,22 @@ export default {
     },
     rolling7() {
       return this.calcRolling(7);
+    },
+    combined() {
+      let result = {};
+      if (this.rolling7) {
+        this.rolling7.forEach(val => {
+          result[val.DATE] = {
+            seven: val.rolling
+          };
+        });
+      }
+      if (this.rolling14) {
+        this.rolling14.forEach(val => {
+          result[val.DATE]["fourteen"] = val.rolling;
+        });
+      }
+      return result;
     }
   },
   methods: {
@@ -44,6 +67,21 @@ export default {
         result.push(thisRecord);
       }
       return result;
+    },
+    loadCountyData() {
+      const vm = this;
+      // Workaround cors
+      const corsAnywhere = "https://cors-anywhere.herokuapp.com";
+
+      const base = "https://hub.mph.in.gov/api/3/action/datastore_search";
+      const resource = "resource_id=afaa225d-ac4e-4e80-9190-f6800c366b58";
+      // const resource = "resource_id=afaa225d-ac4e-4e80-9190-f6800c366b58";
+      fetch(`${corsAnywhere}/${base}?${resource}&q=Elkhart`, {})
+        .then(res => res.json())
+        .then(res => {
+          vm.info = res.result;
+        })
+        .catch(err => {});
     },
     loadData() {
       const vm = this;

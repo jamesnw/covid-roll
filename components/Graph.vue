@@ -1,33 +1,18 @@
 <template>
-  <div ref="graph" v-if="hasData" id="container" @click="drawGraph">Graph</div>
-  <div v-else>Loading...</div>
+  <div ref="graph" id="container">Graph</div>
+  <div v-if="!hasData">Loading...</div>
 </template>
 
 <script>
+import { dfRolling } from "../composables/county.ts";
 import Highcharts from "highcharts/es-modules/masters/highcharts.src";
 export default {
-  props: {
-    days14: {
-      type: Array,
-      default: () => {
-        [];
-      }
-    },
-    days7: {
-      type: Array,
-      default: () => {
-        [];
-      }
-    }
-  },
-  data() {
-    return {
-      data: undefined
-    };
+  setup() {
+    return { dfRolling };
   },
   computed: {
     hasData() {
-      return this.days14 && this.days14.length > 0;
+      return dfRolling.value[0].values.length > 0;
     }
   },
   created() {
@@ -36,12 +21,7 @@ export default {
     });
   },
   watch: {
-    days7() {
-      this.$nextTick(() => {
-        this.drawGraph();
-      });
-    },
-    days14() {
+    dfRolling() {
       this.$nextTick(() => {
         this.drawGraph();
       });
@@ -50,25 +30,13 @@ export default {
   methods: {
     drawGraph() {
       console.log("draw");
-      if (!this.days14) return;
-      //   let numbers = this.days.map(day => day.rolling);
-      //   let legend = this.days.map(day => {
-      //     x = new Date(day.date);
-      //     return x.getTime();
-      //   });
-      let data14 = this.days14.map(day => {
-        let x = new Date(day.DATE);
-        return [x.getTime(), day.rolling];
+      if (!dfRolling.value) return;
+      const series = dfRolling.value.map(single => {
+        return {
+          name: `${single.range} day rolling`,
+          data: single.values
+        };
       });
-      let data7 = this.days7.map(day => {
-        let x = new Date(day.DATE);
-        return [x.getTime(), day.rolling];
-      });
-      let daily = this.days7.map(day => {
-        let x = new Date(day.DATE);
-        return [x.getTime(), day.COVID_COUNT];
-      });
-      this.data = { data14, data7 };
       Highcharts.chart("container", {
         title: {
           text: "Indiana Covid Positive Tests"
@@ -117,20 +85,7 @@ export default {
           verticalAlign: "middle"
         },
 
-        series: [
-          {
-            name: "14 day rolling",
-            data: data14
-          },
-          {
-            name: "7 day rolling",
-            data: data7
-          },
-          {
-            name: "daily",
-            data: daily
-          }
-        ],
+        series,
 
         responsive: {
           rules: [
