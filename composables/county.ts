@@ -1,7 +1,8 @@
-// @ts-check
+// @ts-strict
+"use strict";
 import { ref, watchEffect } from "vue";
 
-const ranges: Number[] = [1, 7, 14];
+const ranges: number[] = [1, 7, 14];
 
 const area = ref<string>("ELKHART");
 
@@ -112,7 +113,7 @@ const dfRolling = ref<object[]>([]);
 // Initial load
 loadCounty(area.value);
 
-function cleanData(data) {
+function cleanData(data: Record[]): Record[] {
   let x = data.filter((record) => {
     let date = new Date(record.DATE);
     return date >= new Date("3/1/2020");
@@ -141,7 +142,7 @@ watchEffect(async () => {
   await loadCounty(area.value);
 });
 
-function calcRolling(range) {
+function calcRolling(range: number): object[] {
   let result = [];
 
   for (let index = range; index <= dataframe.value.length; index++) {
@@ -156,7 +157,7 @@ function calcRolling(range) {
   }
   return result;
 }
-function calcAllRolling() {
+function calcAllRolling(): object[] {
   return ranges.map((range) => {
     return { range, values: calcRolling(range) };
   });
