@@ -1,8 +1,7 @@
 // @ts-strict
 "use strict";
 import { ref, watchEffect } from "vue";
-
-const ranges: number[] = [1, 7, 14];
+import { ranges, Record } from "./shared";
 
 const area = ref<string>("ELKHART");
 
@@ -102,11 +101,6 @@ const countyList = ref<string[]>([
   "WHITLEY",
 ]);
 
-interface Record {
-  DATE: string;
-  COVID_COUNT: string;
-  rolling?: number;
-}
 const dataframe = ref<Record[]>([]);
 const dfRolling = ref<object[]>([]);
 
@@ -155,9 +149,9 @@ function calcRolling(range: number): object[] {
     let day = [date.getTime(), count];
     result.push(day);
   }
-  result = result.sort((a, b)=>{
-    return a[0] - b[1]
-  })
+  result = result.sort((a, b) => {
+    return a[0] - b[0];
+  });
   return result;
 }
 function calcAllRolling(): object[] {

@@ -4,15 +4,16 @@
 </template>
 
 <script>
-import { dfRolling } from "../composables/county.ts";
 import Highcharts from "highcharts/es-modules/masters/highcharts.src";
 export default {
-  setup() {
-    return { dfRolling };
-  },
+  name: "Graph",
+  props: ["rolling", "area"],
+
   computed: {
     hasData() {
-      return dfRolling.value[0].values.length > 0;
+      return (
+        this.rolling && this.rolling[0] && this.rolling[0].values.length > 0
+      );
     }
   },
   created() {
@@ -21,7 +22,7 @@ export default {
     });
   },
   watch: {
-    dfRolling() {
+    rolling() {
       this.$nextTick(() => {
         this.drawGraph();
       });
@@ -30,8 +31,8 @@ export default {
   methods: {
     drawGraph() {
       console.log("draw");
-      if (!dfRolling.value) return;
-      const series = dfRolling.value.map(single => {
+      if (!this.rolling) return;
+      const series = this.rolling.map(single => {
         return {
           name: `${single.range} day rolling`,
           data: single.values
@@ -39,7 +40,7 @@ export default {
       });
       Highcharts.chart("container", {
         title: {
-          text: "Indiana Covid Positive Tests"
+          text: this.area + " Covid Positive Tests"
         },
 
         subtitle: {

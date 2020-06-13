@@ -1,16 +1,13 @@
 <template>
-  <CountyOptions />
-  <Graph />
+  <TabView />
 </template>
 
 <script>
-import Graph from "./components/Graph.vue";
-import CountyOptions from "./components/CountyOptions.vue";
+import TabView from "./components/TabView.vue";
 export default {
   name: "App",
   components: {
-    Graph,
-    CountyOptions
+    TabView
   }
 };
 </script>
