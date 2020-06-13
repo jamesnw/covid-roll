@@ -155,6 +155,9 @@ function calcRolling(range: number): object[] {
     let day = [date.getTime(), count];
     result.push(day);
   }
+  result = result.sort((a, b)=>{
+    return a[0] - b[1]
+  })
   return result;
 }
 function calcAllRolling(): object[] {
