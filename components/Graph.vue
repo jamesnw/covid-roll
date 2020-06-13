@@ -71,10 +71,17 @@ export default {
             },
             {
               value: new Date("May 22, 2020"),
-              dashStyle: "dash",
+              dashStyle: "solid",
               width: 1,
               color: "#d33",
               label: { text: "Stage 3" }
+            },
+            {
+              value: new Date("June 12, 2020"),
+              dashStyle: "dash",
+              width: 1,
+              color: "#d33",
+              label: { text: "Stage 4" }
             }
           ]
         },
