@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "highcharts": "^8.1.0",
+    "tailwindcss": "^1.4.6",
     "vue": "^3.0.0-beta.14"
   },
   "devDependencies": {

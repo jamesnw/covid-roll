@@ -1,8 +1,18 @@
 <template>
   <div>
     <div class="tab-buttons">
-      <button class="tab-button" @click="active='state'" :disabled="active === 'state'">State</button>
-      <button class="tab-button" @click="active='county'" :disabled="active === 'county'">County</button>
+      <button
+        :class="['btn btn-blue', {active: stateActive}]"
+        type="button"
+        @click="active='state'"
+        :disabled="stateActive"
+      >State</button>
+      <button
+        :class="['btn btn-blue', {active: countyActive}]"
+        type="button"
+        @click="active='county'"
+        :disabled="countyActive"
+      >County</button>
     </div>
     <div class="tab-content">
       <div class="tab" id="state" v-if="active==='state'">
@@ -28,6 +38,14 @@ export default {
   components: {
     State,
     County
+  },
+  computed: {
+    stateActive() {
+      return this.active === "state";
+    },
+    countyActive() {
+      return this.active === "county";
+    }
   }
 };
 </script>
