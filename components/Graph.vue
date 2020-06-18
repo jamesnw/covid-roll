@@ -4,9 +4,13 @@
   <div v-if="!hasData">Loading...</div>
 </template>
 
-<script>
+<script lang="ts">
 import GraphOptions from "./GraphOptions.vue";
-import { selectedGraphType, graphTypes } from "../composables/shared.ts";
+import {
+  selectedGraphType,
+  graphTypes,
+  GraphType
+} from "../composables/shared.ts";
 
 import Highcharts from "highcharts/es-modules/masters/highcharts.src";
 import { computed } from "vue";
@@ -22,7 +26,7 @@ export default {
     }
   },
   setup() {
-    const graphType = computed(() => {
+    const graphType: GraphType = computed(() => {
       return graphTypes.value.find(x => x.type === selectedGraphType.value);
     });
     return { selectedGraphType, graphTypes, graphType };
@@ -56,7 +60,7 @@ export default {
       });
       Highcharts.chart("container", {
         title: {
-          text: this.area + " Covid Positive " + this.graphType.type
+          text: this.area + " Covid " + this.graphType.title
         },
 
         subtitle: {

@@ -42,11 +42,19 @@ function calcRolling(range: number, dataframe: any): object[] {
 }
 
 const selectedGraphType = ref<string>("count");
-
-const graphTypes = ref<object[]>([
-  { type: "count", key: "count" },
-  { type: "tests", key: "tests" },
-  { type: "positive test rate", key: "posTestPercent" },
+interface GraphType {
+  type: String;
+  key: String;
+  title: String;
+}
+const graphTypes = ref<GraphType[]>([
+  { type: "count", key: "count", title: "Positive Tests" },
+  { type: "tests", key: "tests", title: "Total Tests" },
+  {
+    type: "positive test rate",
+    key: "posTestPercent",
+    title: "Positive Test Percent",
+  },
 ]);
 
 export { ranges, Record, calcRolling, selectedGraphType, graphTypes };
