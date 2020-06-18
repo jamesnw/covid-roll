@@ -1,7 +1,7 @@
 // @ts-strict
 "use strict";
 import { ref } from "vue";
-import { ranges, Record } from "./shared";
+import { ranges, Record, calcRolling } from "./shared";
 
 const dataframe = ref<Record[]>([]);
 const dfRolling = ref<object[]>([]);
@@ -32,27 +32,9 @@ async function loadState() {
     .catch((err) => {});
 }
 
-function calcRolling(range: number): object[] {
-  let result = [];
-
-  for (let index = range; index <= dataframe.value.length; index++) {
-    let rollingWindow = dataframe.value.slice(index - range, index);
-    let count = rollingWindow.reduce((acc: number, rec) => {
-      return acc + parseInt(rec.COVID_COUNT);
-    }, 0);
-    let thisRecord = { ...dataframe.value[index - 1] };
-    let date = new Date(thisRecord.DATE);
-    let day = [date.getTime(), count];
-    result.push(day);
-  }
-  result = result.sort((a, b) => {
-    return a[0] - b[0];
-  });
-  return result;
-}
 function calcAllRolling(): object[] {
   return ranges.map((range) => {
-    return { range, values: calcRolling(range) };
+    return { range, values: calcRolling(range, dataframe) };
   });
 }
 

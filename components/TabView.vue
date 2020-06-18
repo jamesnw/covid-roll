@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="tab-buttons">
+    <div class="tab-buttons my-2">
       <button
         :class="['btn btn-blue', {active: stateActive}]"
         type="button"

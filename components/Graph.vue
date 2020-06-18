@@ -1,20 +1,31 @@
 <template>
+  <GraphOptions />
   <div ref="graph" id="container">Graph</div>
   <div v-if="!hasData">Loading...</div>
 </template>
 
 <script>
+import GraphOptions from "./GraphOptions.vue";
+import { selectedGraphType, graphTypes } from "../composables/shared.ts";
+
 import Highcharts from "highcharts/es-modules/masters/highcharts.src";
+import { computed } from "vue";
 export default {
   name: "Graph",
   props: ["rolling", "area"],
-
+  components: { GraphOptions },
   computed: {
     hasData() {
       return (
         this.rolling && this.rolling[0] && this.rolling[0].values.length > 0
       );
     }
+  },
+  setup() {
+    const graphType = computed(() => {
+      return graphTypes.value.find(x => x.type === selectedGraphType.value);
+    });
+    return { selectedGraphType, graphTypes, graphType };
   },
   created() {
     this.$nextTick(() => {
@@ -26,6 +37,11 @@ export default {
       this.$nextTick(() => {
         this.drawGraph();
       });
+    },
+    graphType() {
+      this.$nextTick(() => {
+        this.drawGraph();
+      });
     }
   },
   methods: {
@@ -34,13 +50,13 @@ export default {
       if (!this.rolling) return;
       const series = this.rolling.map(single => {
         return {
-          name: `${single.range} day rolling`,
-          data: single.values
+          name: `${single.range} day rolling `,
+          data: single.values.map(obj => [obj.date, obj[this.graphType.key]])
         };
       });
       Highcharts.chart("container", {
         title: {
-          text: this.area + " Covid Positive Tests"
+          text: this.area + " Covid Positive " + this.graphType.type
         },
 
         subtitle: {
