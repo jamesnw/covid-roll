@@ -107,6 +107,12 @@ export default {
           ]
         },
 
+        tooltip: {
+          shared: true,
+          valueSuffix: this.graphType.tooltipSuffix,
+          valueDecimals: 0
+        },
+
         legend: {
           layout: "vertical",
           align: "right",

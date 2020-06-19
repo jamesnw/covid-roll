@@ -46,6 +46,7 @@ interface GraphType {
   type: String;
   key: String;
   title: String;
+  tooltipSuffix?: String;
 }
 const graphTypes = ref<GraphType[]>([
   { type: "count", key: "count", title: "Positive Tests" },
@@ -54,6 +55,7 @@ const graphTypes = ref<GraphType[]>([
     type: "positive test rate",
     key: "posTestPercent",
     title: "Positive Test Percent",
+    tooltipSuffix: "%",
   },
 ]);
 
