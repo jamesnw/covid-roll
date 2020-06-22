@@ -117,6 +117,9 @@ function cleanData(data: Record[]): Record[] {
     let date = new Date(record.DATE);
     return date >= new Date("3/1/2020");
   });
+  x = x.sort((a, b)=>{
+    return new Date(a.DATE).getTime() - new Date(b.DATE).getTime();
+  })
   return x;
 }
 async function loadCounty(county: string) {

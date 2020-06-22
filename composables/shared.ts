@@ -36,9 +36,6 @@ function calcRolling(range: number, dataframe: any): object[] {
     }
     result.push(day);
   }
-  result = result.sort((a, b) => {
-    return a[0] - b[0];
-  });
   return result;
 }
 
