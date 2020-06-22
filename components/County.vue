@@ -1,12 +1,14 @@
 <template>
   <CountyOptions />
+  <Stats />
   <Graph :rolling="dfRolling" :area="countyName" />
 </template>
 
 <script>
 import CountyOptions from "./CountyOptions.vue";
 import Graph from "./Graph.vue";
-import { dfRolling, area } from "../composables/county.ts";
+import Stats from "./Stats.vue";
+import { dfRolling, area, sums } from "../composables/county.ts";
 import { computed } from "vue";
 export default {
   name: "County",
@@ -18,11 +20,12 @@ export default {
       return area.value[0].toUpperCase() + area.value.slice(1).toLowerCase();
     });
 
-    return { dfRolling, countyName };
+    return { dfRolling, countyName, sums, area };
   },
   components: {
     CountyOptions,
-    Graph
+    Graph,
+    Stats
   }
 };
 </script>

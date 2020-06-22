@@ -1,12 +1,13 @@
 // @ts-strict
 "use strict";
-import { ref } from "vue";
+import { ref, Ref } from "vue";
 
 const ranges: number[] = [1, 7, 14];
 interface Record {
   DATE: string;
   COVID_COUNT: string;
   COVID_TEST: string;
+  COVID_DEATHS: string;
   rolling?: number;
 }
 interface RollingRecord {
@@ -41,6 +42,24 @@ function calcRolling(range: number, dataframe: any): object[] {
   return result;
 }
 
+function getSums(dataframe: Ref, population: number): 
+  {positiveTests: number, deaths: number, percentInfected} 
+  {
+  const value : Object[] = dataframe.value;
+  const positiveTests = value.reduce<number>((sum, day:Record)=>{
+    return sum + parseInt(day.COVID_COUNT)
+  }, 0);
+  const deaths = value.reduce<number>((sum, day:Record)=>{
+    return sum + parseInt(day.COVID_DEATHS)
+  }, 0);
+  const percentInfected = positiveTests/population;
+  return {
+    positiveTests,
+    deaths,
+    percentInfected
+  }
+}
+
 const selectedGraphType = ref<string>("count");
 interface GraphType {
   type: String;
@@ -59,4 +78,4 @@ const graphTypes = ref<GraphType[]>([
   },
 ]);
 
-export { ranges, Record, calcRolling, selectedGraphType, graphTypes };
+export { ranges, Record, calcRolling, selectedGraphType, graphTypes, getSums };
