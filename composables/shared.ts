@@ -4,10 +4,10 @@ import { ref, Ref } from "vue";
 
 const ranges: number[] = [1, 7, 14];
 interface Record {
-  DATE: string;
-  COVID_COUNT: string;
-  COVID_TEST: string;
-  COVID_DEATHS: string;
+  date: string;
+  m1e_covid_cases: string;
+  m1e_covid_tests: string;
+  m1e_covid_deaths: string;
   rolling?: number;
 }
 interface RollingRecord {
@@ -18,18 +18,17 @@ interface RollingRecord {
 }
 function calcRolling(range: number, dataframe: any): object[] {
   let result = [];
-
   for (let index = range; index <= dataframe.value.length; index++) {
     let rollingWindow = dataframe.value.slice(index - range, index);
-    let count = rollingWindow.reduce((acc: number, rec) => {
-      return acc + parseInt(rec.COVID_COUNT);
+    let count = rollingWindow.reduce((acc: number, rec: Record) => {
+      return acc + parseInt(rec.m1e_covid_cases);
     }, 0);
-    let tests = rollingWindow.reduce((acc: number, rec) => {
-      return acc + parseInt(rec.COVID_TEST);
+    let tests = rollingWindow.reduce((acc: number, rec: Record) => {
+      return acc + parseInt(rec.m1e_covid_tests);
     }, 0);
     let posTestPercent = (count / tests) * 100;
-    let thisRecord = { ...dataframe.value[index - 1] };
-    let date = new Date(thisRecord.DATE);
+    let thisRecord : Record = { ...dataframe.value[index - 1] };
+    let date = new Date(thisRecord.date);
     let day: RollingRecord = { date: date.getTime(), count, tests };
     if (posTestPercent <= 100) {
       day.posTestPercent = posTestPercent;
@@ -44,10 +43,10 @@ function getSums(dataframe: Ref, population: number):
   {
   const value : Object[] = dataframe.value;
   const positiveTests = value.reduce<number>((sum, day:Record)=>{
-    return sum + parseInt(day.COVID_COUNT)
+    return sum + parseInt(day.m1e_covid_cases)
   }, 0);
   const deaths = value.reduce<number>((sum, day:Record)=>{
-    return sum + parseInt(day.COVID_DEATHS)
+    return sum + parseInt(day.m1e_covid_deaths)
   }, 0);
   const percentInfected = positiveTests/population;
   return {
