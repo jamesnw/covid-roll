@@ -8,7 +8,7 @@ const dfRolling = ref<object[]>([]);
 
 function cleanData(data: Record[]): Record[] {
   let x = data.filter((record) => {
-    let date = new Date(record.date);
+    let date = new Date(record.DATE);
     return date >= new Date("3/1/2020");
   });
   return x;
