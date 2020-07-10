@@ -96,7 +96,6 @@ export default {
         .then(res => res.json())
         .then(res => {
           vm.info = res.result;
-          console.log("res", res);
         })
         .catch(err => {
           console.log("err", err);

@@ -477,9 +477,6 @@ const countyList = ref<County[]>([
 const dataframe = ref<Record[]>([]);
 const dfRolling = ref<object[]>([]);
 
-// Initial load
-// loadCounty(area.value);
-
 function cleanData(data: Record[]): Record[] {
   let x = data.filter((record) => {
     let date = new Date(record.date);
@@ -523,7 +520,6 @@ watchEffect(() => {
   dfRolling.value = calcAllRolling();
   const {population} = countyList.value.find(c=>c.key.toLowerCase() === area.value.toLowerCase())
   sums.value = getSums(dataframe,population);
-  console.log(sums.value)
 });
 
 export { area, countyList, dataframe, dfRolling, sums };
