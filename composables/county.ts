@@ -378,7 +378,7 @@ const countyList = ref<County[]>([
     "population": 20526
   },
   {
-    "key": "St Joseph",
+    "key": "St. Joseph",
     "name": "St. Joseph County",
     "population": 269240
   },

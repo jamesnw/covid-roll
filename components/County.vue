@@ -1,7 +1,7 @@
 <template>
   <CountyOptions />
   <Stats />
-  <Graph :rolling="dfRolling" :area="countyName" />
+  <Graph :rolling="dfRolling" :area="area" />
 </template>
 
 <script>
@@ -16,11 +16,7 @@ export default {
     return {};
   },
   setup() {
-    let countyName = computed(() => {
-      return area.value[0].toUpperCase() + area.value.slice(1).toLowerCase();
-    });
-
-    return { dfRolling, countyName, sums, area };
+    return { dfRolling, sums, area };
   },
   components: {
     CountyOptions,
