@@ -119,13 +119,20 @@ function cleanData(data: Record[]): Record[] {
   })
   return x;
 }
+function titleCase(str) {
+  str = str.toLowerCase().split(' ');
+  for (var i = 0; i < str.length; i++) {
+    str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1); 
+  }
+  return str.join(' ');
+}
 async function loadCounty(county: string) {
   // Workaround cors
   const corsAnywhere = "https://cors-anywhere.herokuapp.com";
 
   const base = "https://hub.mph.in.gov/api/3/action/datastore_search_sql";
   const resource = "afaa225d-ac4e-4e80-9190-f6800c366b58";
-  county = county.toUpperCase();
+  county = titleCase(county);
   const sql = `sql=SELECT * FROM "${resource}" WHERE "COUNTY_NAME" LIKE '${county}'`;
   // const resource = "resource_id=afaa225d-ac4e-4e80-9190-f6800c366b58";
   return await fetch(`${corsAnywhere}/${base}?${sql}`, {})
