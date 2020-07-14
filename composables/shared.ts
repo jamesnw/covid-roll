@@ -15,6 +15,7 @@ interface RollingRecord {
   count: number;
   tests: number;
   posTestPercent?: number;
+  [propName: string]: any;
 }
 function calcRolling(range: number, dataframe: any): object[] {
   let result = [];

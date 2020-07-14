@@ -110,6 +110,13 @@ const dataframe = ref<Record[]>([]);
 const dfRolling = ref<object[]>([]);
 
 function cleanData(data: Record[]): Record[] {
+  data = data.map((record: Record) =>{
+    record.COVID_COUNT = record.COVID_COUNT || record.m1e_covid_cases;
+    record.COVID_TEST = record.COVID_TEST || record.m1e_covid_tests;
+    record.COVID_DEATHS = record.COVID_DEATHS || record.m1e_covid_deaths;
+    record.DATE = record.DATE || record.date;
+    return record;
+  })
   let x = data.filter((record) => {
     let date = new Date(record.DATE);
     return date >= new Date("3/1/2020");
@@ -126,14 +133,17 @@ function titleCase(str) {
   }
   return str.join(' ');
 }
-async function loadCounty(county: string) {
+async function loadCounty(county: string, useTitleCase = false, useLowerCounty = false) {
   // Workaround cors
   const corsAnywhere = "https://cors-anywhere.herokuapp.com";
 
   const base = "https://hub.mph.in.gov/api/3/action/datastore_search_sql";
   const resource = "afaa225d-ac4e-4e80-9190-f6800c366b58";
-  county = titleCase(county);
-  const sql = `sql=SELECT * FROM "${resource}" WHERE "COUNTY_NAME" LIKE '${county}'`;
+  if(useTitleCase){
+    county = titleCase(county);
+  }
+  const fieldName = useLowerCounty ? 'county_name' : 'COUNTY_NAME';
+  const sql = `sql=SELECT * FROM "${resource}" WHERE "${fieldName}" LIKE '${county}'`;
   // const resource = "resource_id=afaa225d-ac4e-4e80-9190-f6800c366b58";
   return await fetch(`${corsAnywhere}/${base}?${sql}`, {})
     .then((res) => res.json())
@@ -146,6 +156,12 @@ async function loadCounty(county: string) {
 watchEffect(async () => {
   dataframe.value = [];
   await loadCounty(area.value);
+  if(dataframe.value.length === 0){
+    await loadCounty(area.value, true);
+  }
+  if(dataframe.value.length === 0){
+    await loadCounty(area.value, true, true);
+  }
 });
 
 function calcAllRolling(): object[] {
