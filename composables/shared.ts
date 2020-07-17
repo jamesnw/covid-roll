@@ -31,7 +31,11 @@ function calcRolling(range: number, dataframe: any): object[] {
     let posTestPercent = (count / tests) * 100;
     let thisRecord = { ...dataframe.value[index - 1] };
     let date = new Date(thisRecord.DATE);
-    let day: RollingRecord = { date: date.getTime(), count, tests };
+    let day: RollingRecord = { 
+      date: date.getTime(),
+      count: count / range,
+      tests: tests / range
+    };
     if (posTestPercent <= 100) {
       day.posTestPercent = posTestPercent;
     }
