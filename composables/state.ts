@@ -18,7 +18,6 @@ function cleanData(data: Record[]): Record[] {
 loadState().then(() => {
   dfRolling.value = calcAllRolling();
   const population = 6732219; // From wikipedia/census 2019
-  debugger;
   sums.value = getSums(dataframe,population, dfRolling);
 });
 async function loadState() {
