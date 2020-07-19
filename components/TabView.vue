@@ -22,12 +22,14 @@
         <County />
       </div>
     </div>
+    <DataDescriptions />
   </div>
 </template>
 
 <script>
 import County from "./County.vue";
 import State from "./State.vue";
+import DataDescriptions from './DataDescriptions.vue'
 export default {
   name: "TabView",
   data() {
@@ -37,7 +39,8 @@ export default {
   },
   components: {
     State,
-    County
+    County,
+    DataDescriptions
   },
   computed: {
     stateActive() {
