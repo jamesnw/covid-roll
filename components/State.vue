@@ -1,20 +1,22 @@
 <template>
   <div>
+     <Stats :sums="sums" />
     <graph :rolling="dfRolling" area="Indiana" />
   </div>
 </template>
 
 <script>
-import { dfRolling } from "../composables/state";
+import { dfRolling, sums } from "../composables/state";
 import Graph from "./Graph.vue";
+import Stats from "./Stats.vue";
 export default {
   name: "State",
   setup() {
     return {
-      dfRolling
+      dfRolling, sums
     };
   },
-  components: { Graph }
+  components: { Graph, Stats }
 };
 </script>
 

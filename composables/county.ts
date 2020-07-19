@@ -174,7 +174,7 @@ const sums = ref<Object>({});
 watchEffect(() => {
   dfRolling.value = calcAllRolling();
   const {population} = countyList.value.find(c=>c.key === area.value)
-  sums.value = getSums(dataframe,population);
+  sums.value = getSums(dataframe,population, dfRolling);
 });
 
 export { area, countyList, dataframe, dfRolling, sums };

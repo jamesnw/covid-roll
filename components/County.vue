@@ -1,6 +1,6 @@
 <template>
   <CountyOptions />
-  <Stats />
+  <Stats :sums="sums" />
   <Graph :rolling="dfRolling" :area="area" />
 </template>
 

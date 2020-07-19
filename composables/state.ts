@@ -1,10 +1,11 @@
 // @ts-strict
 "use strict";
 import { ref } from "vue";
-import { ranges, Record, calcRolling } from "./shared";
+import { ranges, Record, calcRolling, getSums } from "./shared";
 
 const dataframe = ref<Record[]>([]);
 const dfRolling = ref<object[]>([]);
+const sums = ref<Object>({});
 
 function cleanData(data: Record[]): Record[] {
   let x = data.filter((record) => {
@@ -13,8 +14,12 @@ function cleanData(data: Record[]): Record[] {
   });
   return x;
 }
+
 loadState().then(() => {
   dfRolling.value = calcAllRolling();
+  const population = 6732219; // From wikipedia/census 2019
+  debugger;
+  sums.value = getSums(dataframe,population, dfRolling);
 });
 async function loadState() {
   // Workaround cors
@@ -38,4 +43,4 @@ function calcAllRolling(): object[] {
   });
 }
 
-export { dataframe, dfRolling };
+export { dataframe, dfRolling, sums };
