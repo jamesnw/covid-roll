@@ -6,7 +6,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "highcharts": "^8.1.0",
+    "highcharts": "^8.1.1",
     "tailwindcss": "^1.4.6",
     "vue": "^3.0.0-beta.14"
   },
