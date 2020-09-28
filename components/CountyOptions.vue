@@ -5,9 +5,7 @@
 </template>
 
 <script setup>
-import { area as _area, countyList as _countyList } from "../composables/county.ts";
-export const area = _area;
-export const countyList = _countyList;
+export { area , countyList } from "../composables/county.ts";
 </script>
 
 <style>
