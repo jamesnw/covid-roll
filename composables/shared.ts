@@ -45,7 +45,7 @@ function calcRolling(range: number, dataframe: any): object[] {
 }
 
 function getSums(dataframe: Ref, population: number, dfRolling: Ref): 
-  {positiveTests: number, deaths: number, percentInfected: number, percentPositive: number} 
+  {positiveTests: number, deaths: number, percentInfected: number, percentPositive: number, lastReportedNumber: number} 
   {
   const value : Object[] = dataframe.value;
   const positiveTests = value.reduce<number>((sum, day:Record)=>{
@@ -61,11 +61,14 @@ function getSums(dataframe: Ref, population: number, dfRolling: Ref):
     const count = Object.keys(vals).length;
     percentPositive = vals[count - 4].posTestPercent;
   }
+  const lastReportedDay = value[value.length -1];
+  const lastReportedNumber = lastReportedDay ? lastReportedDay['COVID_COUNT'] : 0;
   return {
     positiveTests,
     deaths,
     percentInfected,
-    percentPositive
+    percentPositive,
+    lastReportedNumber
   }
 }
 
