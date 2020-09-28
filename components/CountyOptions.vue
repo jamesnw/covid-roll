@@ -4,13 +4,10 @@
   </select>
 </template>
 
-<script>
-import { area, countyList } from "../composables/county.ts";
-export default {
-  setup() {
-    return { area, countyList };
-  }
-};
+<script setup>
+import { area as _area, countyList as _countyList } from "../composables/county.ts";
+export const area = _area;
+export const countyList = _countyList;
 </script>
 
 <style>

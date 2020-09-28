@@ -10,9 +10,9 @@ import {
   selectedGraphType,
   graphTypes,
   GraphType
-} from "../composables/shared.ts";
+} from "../composables/shared";
 
-import Highcharts from "highcharts/es-modules/masters/highcharts.src";
+import Highcharts from "highcharts";
 import { computed } from "vue";
 export default {
   name: "Graph",
